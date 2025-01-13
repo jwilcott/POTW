@@ -24,4 +24,46 @@ function init() {
     animate();
 }
 
-window.onload = init;
+const pets = [
+    { name: 'Billy', score: 0 },
+    { name: 'Bobby', score: 0 }
+];
+
+function updateScore(index, delta) {
+    pets[index].score += delta;
+    document.getElementById(`score-${index}`).textContent = pets[index].score;
+}
+
+function createPetElement(pet, index) {
+    const container = document.createElement('div');
+    container.className = 'pet-container';
+
+    const name = document.createElement('div');
+    name.className = 'pet-name';
+    name.textContent = pet.name;
+
+    const score = document.createElement('div');
+    score.className = 'pet-score';
+    score.id = `score-${index}`;
+    score.textContent = pet.score;
+
+    const plusButton = document.createElement('button');
+    plusButton.textContent = '+';
+    plusButton.onclick = () => updateScore(index, 1);
+
+    const minusButton = document.createElement('button');
+    minusButton.textContent = '-';
+    minusButton.onclick = () => updateScore(index, -1);
+
+    container.appendChild(name);
+    container.appendChild(minusButton);
+    container.appendChild(score);
+    container.appendChild(plusButton);
+
+    document.body.appendChild(container);
+}
+
+window.onload = () => {
+    init();
+    pets.forEach((pet, index) => createPetElement(pet, index));
+};
